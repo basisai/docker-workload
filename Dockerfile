@@ -42,9 +42,17 @@ RUN \
     cp -r python/lib ${SPARK_HOME}/python/lib && \
     # Sed command to remove use of tini
     sed -i -e 's/\/sbin\/tini[^"]*//g' /opt/entrypoint.sh && \
+    # Remove extracted Spark
+    rm -rf /spark-${SPARK_VERSION}-bin-hadoop2.7
+
+RUN \
+    cd ${SPARK_HOME}/jars && \
     # Install GCS connector
     curl https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop2-latest.jar -OLJ && \
-    mv gcs-connector-hadoop2-latest.jar ${SPARK_HOME}/jars
+    # Install Hadoop AWS integration
+    curl http://central.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.3/hadoop-aws-2.7.3.jar -OLJ && \
+    # Install AWS SDK For Java
+    curl http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar -OLJ
 
 WORKDIR /opt/spark/work-dir
 
