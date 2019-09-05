@@ -50,9 +50,13 @@ RUN \
     # Install GCS connector
     curl https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop2-latest.jar -OLJ && \
     # Install Hadoop AWS integration
-    curl http://central.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.3/hadoop-aws-2.7.3.jar -OLJ && \
+    curl https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.3/hadoop-aws-2.7.3.jar -OLJ && \
     # Install AWS SDK For Java
-    curl http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar -OLJ
+    curl https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar -OLJ && \
+    # Update kubernetes client to fix a spark issue for version < 2.4.5: https://issues.apache.org/jira/browse/SPARK-28921
+    rm kubernetes-client-3.0.0.jar && \
+    curl https://repo1.maven.org/maven2/io/fabric8/kubernetes-client/4.4.2/kubernetes-client-4.4.2.jar -OLJ
+
 
 WORKDIR /opt/spark/work-dir
 
