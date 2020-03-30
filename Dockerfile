@@ -1,8 +1,8 @@
-FROM python:3.7.4-buster
+FROM python:3.7.7-buster
 
 ARG SPARK_JARS=jars
 ARG IMG_PATH=kubernetes/dockerfiles
-ARG SPARK_VERSION=2.4.0
+ARG SPARK_VERSION=2.4.5
 
 ENV SPARK_HOME /opt/spark
 ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
@@ -52,11 +52,7 @@ RUN \
     # Install Hadoop AWS integration
     curl https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.3/hadoop-aws-2.7.3.jar -OLJ && \
     # Install AWS SDK For Java
-    curl https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar -OLJ && \
-    # Update kubernetes client to fix a spark issue for version < 2.4.5: https://issues.apache.org/jira/browse/SPARK-28921
-    rm kubernetes-client-3.0.0.jar && \
-    curl https://repo1.maven.org/maven2/io/fabric8/kubernetes-client/4.4.2/kubernetes-client-4.4.2.jar -OLJ
-
+    curl https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar -OLJ
 
 WORKDIR /opt/spark/work-dir
 
