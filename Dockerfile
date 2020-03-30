@@ -41,7 +41,7 @@ RUN \
     cp -r data /opt/spark/data && \
     cp -r python/lib ${SPARK_HOME}/python/lib && \
     # Sed command to remove use of tini
-    sed -i -e 's/\/sbin\/tini[^"]*//g' /opt/entrypoint.sh && \
+    sed -i -e 's/\/usr\/bin\/tini[^"]*//g' /opt/entrypoint.sh && \
     # Remove extracted Spark
     rm -rf /spark-${SPARK_VERSION}-bin-hadoop2.7
 
