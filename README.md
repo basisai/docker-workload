@@ -46,10 +46,7 @@ The `step` stanza specifies a single training step to be run. It comprises of th
 
 Multiple steps are allowed but they must have unique names.
 
-Additionally, you may pass in variables and secrets to all steps in the `train` stanza.
-
-- [optional] parameters: environment variables used by the script. They can be overwritten when you create a run.
-- [optional] secrets: the names of the secrets necessary to run the script successfully
+Additionally, you may pass in environment variables and secrets to all steps in the `train` stanza. Refer to [our documentation](https://docs.basis-ai.com/guides/writing-files/bedrock.hcl#train-stanza) for a complete list of supported parameters.
 
 ## How to Contribute
 
