@@ -9,7 +9,7 @@ The [workload-standard](https://hub.docker.com/r/basisai/workload-standard) dock
 
 See [churn_prediction](https://github.com/basisai/churn_prediction) for a complete example.
 
-To train a model using Spark on Bedrock, you will need to create a `bedrock.hcl` file with the following configuration.
+To train a model using Spark on Bedrock, you will need to create a `bedrock.hcl` file with the `spark-submit` directive. For example,
 
 ```hcl
 // Refer to https://docs.basis-ai.com/getting-started/writing-files/bedrock.hcl for more details.
@@ -17,16 +17,15 @@ version = "1.0"
 
 train {
     step train {
-        image = "basisai/workload-standard"
+        image = "basisai/workload-standard:v0.2.2"
         install = [
             "pip install -r requirements.txt",
         ]
         script = [
             {spark-submit {
-                script = "train.py"
-                // to be passed in as --conf key=value
+                script = "preprocess.py"
                 conf {
-                    spark.kubernetes.container.image = "basisai/workload-standard"
+                    spark.kubernetes.container.image = "basisai/workload-standard:v0.2.2"
                     spark.kubernetes.pyspark.pythonVersion = "3"
                     spark.driver.memory = "4g"
                     spark.driver.cores = "2"
@@ -37,12 +36,6 @@ train {
                     spark.sql.parquet.compression.codec = "gzip"
                     spark.hadoop.fs.AbstractFileSystem.gs.impl = "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS"
                     spark.hadoop.google.cloud.auth.service.account.enable = "true"
-                }
-                // to be passed in as --key=value
-                settings {
-                    py-files = "my_zip_files.zip"
-                    // If you want to load data from BigQuery
-                    jars = "gs://spark-lib/bigquery/spark-bigquery-latest.jar"
                 }
             }}
         ]
