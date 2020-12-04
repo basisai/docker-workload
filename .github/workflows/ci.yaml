@@ -2,10 +2,11 @@ name: Build and test spark image
 
 on:
   pull_request:
-    types: [opened, ready_for_review, reopened, synchronize]
-    paths:
-      - Dockerfile
-      - pom.xml
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build:
