@@ -2,6 +2,7 @@ name: Build and test spark image
 
 on:
   pull_request:
+    types: [opened, ready_for_review, reopened, synchronize]
   push:
     branches:
       - master
