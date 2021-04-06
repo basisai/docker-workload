@@ -1,4 +1,4 @@
-FROM python:3.8.5-buster
+FROM python:3.9.4-buster
 
 ARG SPARK_VERSION=3.0.1
 ARG HADOOP_VERSION=3.2
