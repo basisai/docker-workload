@@ -6,3 +6,4 @@ scikit-learn
 pyspark
 fastparquet
 s3fs
+streamlit

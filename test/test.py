@@ -8,6 +8,7 @@ from bedrock_client.bedrock.api import BedrockApi
 from bedrock_client.bedrock.metrics.service import ModelMonitoringService
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
+import streamlit as st
 
 
 def main():
