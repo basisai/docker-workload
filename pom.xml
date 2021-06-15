@@ -61,6 +61,14 @@
 			<version>3.2.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-bundle -->
+		<!-- >= 1.11.704 needed for IRSA; hadoop-aws 3.2.0's version is too old -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-bundle</artifactId>
+			<version>1.12.5</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
