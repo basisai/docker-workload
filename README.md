@@ -1,6 +1,6 @@
 # docker-workload
 
-The [workload-standard](https://hub.docker.com/r/basisai/workload-standard) docker image is optimised for running machine learning workloads on Kubernetes. It comes with the following packages pre-installed.
+The [workload-standard](https://quay.io/repository/basisai/workload-standard) docker image is optimised for running machine learning workloads on Kubernetes. It comes with the following packages pre-installed.
 
 - Apache Spark 3.1.2
 - PySpark 3.0
