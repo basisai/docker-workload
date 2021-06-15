@@ -19,7 +19,7 @@ version = "1.0"
 
 train {
     step train {
-        image = "basisai/workload-standard:v0.2.3"
+        image = "quay.io/basisai/workload-standard:v0.3.1"
         install = [
             "pip install -r requirements.txt",
         ]
@@ -27,7 +27,7 @@ train {
             {spark-submit {
                 script = "preprocess.py"
                 conf {
-                    spark.kubernetes.container.image = "basisai/workload-standard:v0.2.3"
+                    spark.kubernetes.container.image = "quay.io/basisai/workload-standard:v0.3.1"
                     spark.kubernetes.pyspark.pythonVersion = "3"
                     spark.driver.memory = "4g"
                     spark.driver.cores = "2"
