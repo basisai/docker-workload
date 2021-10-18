@@ -31,13 +31,15 @@ RUN mvn dependency:copy-dependencies && \
 
 # Install cloud tools
 ARG CLOUD_SDK_VERSION=360.0.0
+COPY requirements.txt /tmp
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - && \
     apt-get update -y && \
     apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION}-0 && \
     rm -rf /var/lib/apt/lists/* && \
     gcloud --version && \
-    pip install -r requirements.txt && \
+    pip install --no-cache-dir -r /tmp/requirements.txt && \
+    rm /tmp/requirements.txt && \
     aws --version
 
 # Finalize the image for production use
