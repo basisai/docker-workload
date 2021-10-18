@@ -29,6 +29,17 @@ RUN mvn dependency:copy-dependencies && \
     # Purge local maven cache
     rm -rf /root/.m2
 
+# Install cloud tools
+ARG CLOUD_SDK_VERSION=360.0.0-0
+ARG AWS_CLI_VERSION=1.20.63
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - && \
+    apt-get update -y && \
+    apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION} google-cloud-sdk-app-engine-python && \
+    gcloud --version && \
+    pip install awscli==${AWS_CLI_VERSION} && \
+    aws --version
+
 # Finalize the image for production use
 RUN echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
     # Only permit root access to members of group wheel
