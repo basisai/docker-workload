@@ -28,8 +28,8 @@ RUN curl https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
 # Install 3rd party packages
 COPY pom.xml .
 RUN mvn dependency:copy-dependencies && \
-    # Remove outdated/vulnerable libraries
-    rm -vf jars/guava-14.0.1.jar jars/jackson-core-2.10.0.jar jars/jackson-databind-2.10.0.jar && \
+    # Remove outdated libraries
+    rm -vf jars/guava-14.0.1.jar && \
     # Purge local maven cache
     rm -rf /root/.m2
 
