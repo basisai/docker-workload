@@ -28,7 +28,7 @@ RUN curl https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
 COPY pom.xml .
 RUN mvn dependency:copy-dependencies && \
     # Remove outdated guava library
-    rm jars/guava-14.0.1.jar && \
+    rm jars/guava-14.0.1.jar jars/log4j-1.2.17.jar && \
     # Purge local maven cache
     rm -rf /root/.m2
 
