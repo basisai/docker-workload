@@ -16,6 +16,7 @@ WORKDIR ${SPARK_HOME}
 RUN apt-get update && apt-get install -y \
     openjdk-${JDK_VERSION}-jre-headless \
     maven \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Install spark and hadoop
