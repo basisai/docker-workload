@@ -1,6 +1,6 @@
 # Python version must be in sync with jupyter-helm driver
 # https://github.com/basisai/jupyter-helm/blob/master/image/Dockerfile#L4
-FROM python:3.9.9-slim-buster
+FROM python:3.9-slim-bullseye
 
 ARG SPARK_VERSION=3.1.2
 ARG HADOOP_VERSION=3.2
@@ -13,7 +13,8 @@ ENV PATH ${PATH}:${SPARK_HOME}/bin
 
 WORKDIR ${SPARK_HOME}
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     openjdk-${JDK_VERSION}-jre-headless \
     maven \
     curl \
