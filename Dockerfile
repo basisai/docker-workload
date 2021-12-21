@@ -1,6 +1,6 @@
 # Python version must be in sync with jupyter-helm driver
 # https://github.com/basisai/jupyter-helm/blob/master/image/Dockerfile#L4
-FROM python:3.9.6-buster
+FROM python:3.9.9-slim-buster
 
 ARG SPARK_VERSION=3.1.2
 ARG HADOOP_VERSION=3.2
