@@ -3,7 +3,7 @@
 
 	<groupId>com.basis-ai.bedrock</groupId>
 	<artifactId>workload-standard</artifactId>
-	<version>0.3.1</version>
+	<version>0.3.3</version>
 
 	<build>
 		<plugins>
@@ -37,21 +37,6 @@
 			<groupId>com.google.cloud.bigdataoss</groupId>
 			<artifactId>gcs-connector</artifactId>
 			<version>hadoop3-2.2.4</version>
-			<!-- Can be removed after upgrading to hadoop 3.3.0 -->
-			<exclusions>
-				<exclusion>
-					<groupId>com.sun.jmx</groupId>
-					<artifactId>jmxri</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.jdmk</groupId>
-					<artifactId>jmxtools</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.jms</groupId>
-					<artifactId>jms</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-aws -->
