@@ -2,7 +2,7 @@
 # https://github.com/basisai/jupyter-helm/blob/master/image/Dockerfile#L4
 FROM python:3.9-slim-bullseye
 
-ARG SPARK_VERSION=3.1.2
+ARG SPARK_VERSION=3.2.0
 ARG HADOOP_VERSION=3.2
 ARG JDK_VERSION=11
 
