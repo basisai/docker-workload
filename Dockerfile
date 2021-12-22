@@ -15,7 +15,6 @@ WORKDIR ${SPARK_HOME}
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    gcc \
     build-essential \
     openjdk-${JDK_VERSION}-jre-headless \
     maven \
