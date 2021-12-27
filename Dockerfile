@@ -31,6 +31,8 @@ COPY pom.xml .
 RUN mvn dependency:copy-dependencies && \
     # Remove outdated libraries
     rm -vf jars/guava-14.0.1.jar && \
+    rm -vf jars/jackson-core-asl-1.9.13.jar && \
+    rm -vf jars/jackson-mapper-asl-1.9.13.jar && \
     # Purge local maven cache
     rm -rf /root/.m2
 
