@@ -4,7 +4,7 @@ The [workload-standard](https://quay.io/repository/basisai/workload-standard) do
 
 - Apache Spark 3.2.0
 - PySpark 3.2.0
-- Hadoop GCS Connector 
+- Hadoop GCS Connector
 - Hadoop S3 Connector
 
 ## Training on Bedrock
