@@ -26,6 +26,10 @@ RUN curl https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
     tar -xzvf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz --strip-components=1 && \
     rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
 
+# Patch htrace-core4 to fix vulnerabilities
+RUN curl https://github.com/basisai/incubator-retired-htrace/releases/download/v4.1.0/htrace-core4-4.1.0-incubating.jar -OLJ && \
+    mv htrace-core4-4.1.0-incubating.jar jars/
+
 # Install 3rd party packages
 COPY pom.xml .
 RUN mvn dependency:copy-dependencies && \
