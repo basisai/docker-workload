@@ -50,11 +50,11 @@ jobs:
           labels: ${{ steps.docker_meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-          outputs: type=docker,dest=/tmp/workload-standard-${{ steps.docker_meta.outputs.tags }}.tar
+          outputs: type=docker,dest=/tmp/workload-standard-${{ steps.docker_meta.outputs.labels["org.opencontainers.image.version"] }}.tar
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          input: '/tmp/workload-standard-${{ steps.docker_meta.outputs.tags }}.tar'
+          input: '/tmp/workload-standard-${{ steps.docker_meta.outputs.labels["org.opencontainers.image.version"] }}.tar'
           format: 'table'
           exit-code: '0'
           ignore-unfixed: true
