@@ -11,13 +11,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, docker, integration]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Docker meta
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        uses: docker/metadata-action@v3
         with:
           images: quay.io/basisai/workload-standard # list of Docker images to use as base name for tags
       - name: Set up QEMU
@@ -50,3 +50,54 @@ jobs:
           labels: ${{ steps.docker_meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+          outputs: type=docker,dest=/tmp/workload-standard-${{ github.sha }}.tar
+      - name: Upload artifact
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker-image
+          path: /tmp/workload-standard-${{ github.sha }}.tar
+          retention-days: 1
+
+  scan:
+    runs-on: [self-hosted, docker, integration]
+    needs: build
+    strategy:
+      matrix:
+        include:
+          - severity: "MEDIUM,HIGH"
+            exit-code: "0"
+          - severity: "CRITICAL"
+            exit-code: "1"
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Download artifact
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: docker-image
+          path: tmp
+      # Ignore the CVE-2019-17571 about log4j version 1 until Spark 3.3 releases with log4j version 2
+      - name: Generate .trivyignore
+        run: echo "CVE-2019-17571" > .trivyignore
+      - name: Run Trivy vulnerability scanner for ${{ matrix.severity }} severity
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: aquasecurity/trivy-action@master
+        with:
+          input: tmp/workload-standard-${{ github.sha }}.tar
+          format: 'table'
+          exit-code: ${{ matrix.exit-code }}
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: ${{ matrix.severity }}
+      - name: Run Trivy vulnerability scanner for ${{ matrix.severity }} severity
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.docker_meta.outputs.tags }}
+          format: 'table'
+          exit-code: ${{ matrix.exit-code }}
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: ${{ matrix.severity }}
