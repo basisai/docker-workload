@@ -74,7 +74,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         uses: aquasecurity/trivy-action@master
         with:
-          input: '/tmp/workload-standard:${{ github.sha }}.tar'
+          input: '/tmp/workload-standard-${{ github.sha }}.tar'
           format: 'table'
           exit-code: '0'
           ignore-unfixed: true
