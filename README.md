@@ -2,8 +2,8 @@
 
 The [workload-standard](https://quay.io/repository/basisai/workload-standard) docker image is optimised for running machine learning workloads on Kubernetes. It comes with the following packages pre-installed.
 
-- Apache Spark 3.1.2
-- PySpark 3.0
+- Apache Spark 3.2.0
+- PySpark 3.2.0
 - Hadoop GCS Connector
 - Hadoop S3 Connector
 
@@ -19,7 +19,7 @@ version = "1.0"
 
 train {
     step train {
-        image = "quay.io/basisai/workload-standard:v0.3.1"
+        image = "quay.io/basisai/workload-standard:v0.3.4"
         install = [
             "pip install -r requirements.txt",
         ]
@@ -27,7 +27,7 @@ train {
             {spark-submit {
                 script = "preprocess.py"
                 conf {
-                    spark.kubernetes.container.image = "quay.io/basisai/workload-standard:v0.3.1"
+                    spark.kubernetes.container.image = "quay.io/basisai/workload-standard:v0.3.4"
                     spark.kubernetes.pyspark.pythonVersion = "3"
                     spark.driver.memory = "4g"
                     spark.driver.cores = "2"

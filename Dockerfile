@@ -2,12 +2,16 @@
 # https://github.com/basisai/jupyter-helm/blob/master/image/Dockerfile#L4
 FROM python:3.9-slim-bullseye
 
+# Default args when not using BuildKit: https://docs.docker.com/engine/reference/builder/#automatic-platform-args-in-the-global-scope
+ARG TARGETARCH
+ENV TARGETARCH=${TARGETARCH:-amd64}
+
 ARG SPARK_VERSION=3.2.0
 ARG HADOOP_VERSION=3.2
 ARG JDK_VERSION=11
 
 ENV SPARK_HOME /opt/spark
-ENV JAVA_HOME /usr/lib/jvm/java-${JDK_VERSION}-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/java-${JDK_VERSION}-openjdk-${TARGETARCH}
 ENV PYTHONPATH ${SPARK_HOME}/python/lib/pyspark.zip:${SPARK_HOME}/python/lib/py4j-*.zip
 ENV PATH ${PATH}:${SPARK_HOME}/bin
 
