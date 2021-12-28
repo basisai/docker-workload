@@ -69,12 +69,15 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: docker-image
-          path: /tmp
+          path: tmp
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: tmp
       - name: Run Trivy vulnerability scanner
         if: ${{ github.event_name == 'pull_request' }}
         uses: aquasecurity/trivy-action@master
         with:
-          input: '/tmp/workload-standard-${{ github.sha }}.tar'
+          input: tmp/workload-standard-${{ github.sha }}.tar
           format: 'table'
           exit-code: '0'
           ignore-unfixed: true
