@@ -94,8 +94,8 @@ jobs:
           name: docker-image
           path: tmp
       # Ignore the CVE-2019-17571 about log4j version 1 until Spark 3.3 releases with log4j version 2
-      - name: Generate .trivyignore
-        run: echo "CVE-2019-17571" > .trivyignore
+      # - name: Generate .trivyignore
+      #   run: echo "CVE-2019-17571" > .trivyignore
       - name: Run Trivy vulnerability scanner for ${{ matrix.severity }} severity
         if: ${{ github.event_name == 'pull_request' }}
         uses: aquasecurity/trivy-action@master
