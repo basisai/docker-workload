@@ -94,16 +94,14 @@ jobs:
           name: docker-image
           path: tmp
       # Ignore the CVE-2019-17571 about log4j version 1 until Spark 3.3 releases with log4j version 2
-      # - name: Generate .trivyignore
-      #   run: echo "CVE-2019-17571" > .trivyignore
+      - name: Generate .trivyignore
+        run: echo "CVE-2019-17571" > .trivyignore
       - name: Run Trivy vulnerability scanner for ${{ matrix.severity }} severity
         if: ${{ github.event_name == 'pull_request' }}
         uses: aquasecurity/trivy-action@master
         with:
           input: tmp/workload-standard-${{ github.sha }}.tar
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
-          output: 'trivy-results-${{ matrix.severity }}.sarif'
+          format: 'table'
           exit-code: ${{ matrix.exit-code }}
           ignore-unfixed: true
           vuln-type: 'os,library'
@@ -114,16 +112,16 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ needs.build.outputs.image-tags }}
-          # format: 'template'
-          # template: '@/contrib/sarif.tpl'
-          # output: 'trivy-results-${{ matrix.severity }}.sarif'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results-${{ matrix.severity }}.sarif'
           exit-code: ${{ matrix.exit-code }}
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: ${{ matrix.severity }}
         continue-on-error: true
       - name: Upload Trivy scan results to GitHub Security tab
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' }}
         uses: github/codeql-action/upload-sarif@v1
         with:
           sarif_file: 'trivy-results-${{ matrix.severity }}.sarif'
