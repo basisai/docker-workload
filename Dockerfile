@@ -21,7 +21,6 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     build-essential \
     openjdk-${JDK_VERSION}-jre-headless \
-    maven \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
@@ -33,6 +32,14 @@ RUN curl https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
 # Patch htrace-core4 to fix vulnerabilities
 RUN curl https://github.com/basisai/incubator-retired-htrace/releases/download/v4.1.0/htrace-core4-4.1.0-incubating.jar -OLJ && \
     mv htrace-core4-4.1.0-incubating.jar jars/
+
+# Update maven to fix vulnerability: https://security.snyk.io/vuln/SNYK-JAVA-ORGAPACHEMAVENSHARED-570592
+ARG MAVEN_VERSION=3.8.4
+RUN curl https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz -OLJ && \
+    tar xzvf apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
+    mv apache-maven-${MAVEN_VERSION} /opt/maven && \
+    rm apache-maven-${MAVEN_VERSION}-bin.tar.gz
+ENV PATH ${PATH}:/opt/maven/bin
 
 # Install 3rd party packages
 COPY pom.xml .
