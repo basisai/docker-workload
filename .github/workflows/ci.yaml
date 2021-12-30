@@ -83,6 +83,8 @@ jobs:
           - severity: "CRITICAL"
             exit-code: "1"
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Download artifact
@@ -104,13 +106,22 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: ${{ matrix.severity }}
+        continue-on-error: true
       - name: Run Trivy vulnerability scanner for ${{ matrix.severity }} severity
         if: ${{ github.event_name != 'pull_request' }}
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ needs.build.outputs.image-tags }}
-          format: 'table'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results-${{ matrix.severity }}.sarif'
           exit-code: ${{ matrix.exit-code }}
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: ${{ matrix.severity }}
+        continue-on-error: true
+      - name: Upload Trivy scan results to GitHub Security tab
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-results-${{ matrix.severity }}.sarif'
