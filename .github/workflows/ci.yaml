@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: [self-hosted, docker, integration]
     outputs:
-      image-tags: ${{ steps.meta.outputs.version }}
+      image-tags: ${{ steps.docker_meta.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
