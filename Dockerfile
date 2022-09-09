@@ -1,6 +1,6 @@
 # Python version must be in sync with jupyter-helm driver
 # https://github.com/basisai/jupyter-helm/blob/master/image/Dockerfile#L4
-FROM python:3.9-slim-bullseye
+FROM python:3.10.7-slim-bullseye
 
 # Default args when not using BuildKit: https://docs.docker.com/engine/reference/builder/#automatic-platform-args-in-the-global-scope
 ARG TARGETARCH
