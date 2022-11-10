@@ -34,7 +34,7 @@ RUN curl https://github.com/basisai/incubator-retired-htrace/releases/download/v
     mv htrace-core4-4.1.0-incubating.jar jars/
 
 # Update maven to fix vulnerability: https://security.snyk.io/vuln/SNYK-JAVA-ORGAPACHEMAVENSHARED-570592
-ARG MAVEN_VERSION=3.8.4
+ARG MAVEN_VERSION=3.8.6
 RUN curl https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz -OLJ && \
     tar xzvf apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
     mv apache-maven-${MAVEN_VERSION} /opt/maven && \
