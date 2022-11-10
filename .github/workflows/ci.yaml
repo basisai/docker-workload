@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     env:
       # list of Docker images to use as base name for tags
       IMAGE_REPO: quay.io/basisai/workload-standard
@@ -82,7 +82,7 @@ jobs:
           retention-days: 1
 
   scan:
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     needs: build
     strategy:
       matrix:
