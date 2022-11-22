@@ -127,8 +127,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ needs.build.outputs.image-tags }}
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
+          format: 'sarif'
           output: 'trivy-results-${{ matrix.severity }}.sarif'
           exit-code: ${{ matrix.exit-code }}
           ignore-unfixed: true
@@ -137,6 +136,6 @@ jobs:
         continue-on-error: true
       - name: Upload Trivy scan results to GitHub Security tab
         if: ${{ github.event_name != 'pull_request' }}
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results-${{ matrix.severity }}.sarif'
